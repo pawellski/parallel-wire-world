@@ -14,8 +14,10 @@ typedef struct dimension
 
 typedef struct symbols
 {
-    char alive;
-    char dead;
+    char empty;
+    char ehead;
+    char etail;
+    char wire;
 } symbols_t;
 
 
