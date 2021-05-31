@@ -11,8 +11,10 @@
 int main(int argc, char *argv[])
 {
     symbols_t syms;
-    syms.alive = '1';
-    syms.dead = '0';
+    syms.empty = '0';
+    syms.ehead = '1';
+    syms.etail = '2';
+    syms.wire = '3';
     int opt;
     int count_generation = 30;
     double delay = 1.00;
@@ -22,7 +24,7 @@ int main(int argc, char *argv[])
     int writeOpt = 2;
     int generations_done;
 
-        while((opt = getopt(argc, argv, ":n:g:l:i:o:a:d:w:h")) != -1 ){
+        while((opt = getopt(argc, argv, ":n:g:l:i:o:w:h")) != -1 ){
         switch(opt){
         case 'n':
             count_generation = atoi(optarg);
@@ -43,12 +45,6 @@ int main(int argc, char *argv[])
         case 'o':
             fileOut = optarg;
             break;
-        case 'a':
-            syms.alive = *optarg;
-            break;
-        case 'd':
-            syms.dead = *optarg;
-            break;
         case 'w':
             writeOpt = atoi(optarg);
             if(writeOpt < 0 || writeOpt > 2){
@@ -67,10 +63,8 @@ int main(int argc, char *argv[])
 	    printf("-n: Okresla liczbe generacji do wytworzenia. Argument jest liczba dodatnia calkowita\n");
 	    printf("-g: Okresla nazwe pliku .gif do ktorego zapisany bedzie wynik porgramu. Argument jest ciagiem znakow zakonczonym '.gif'\n");
 	    printf("-l: Okresla opoznienie wyswietlania obrazow w pliku .gif. Argument jest liczba zmiennoprzecinkowa\n");
-	    printf("-i: Okresla nazwe wjesciowego pliku tekstowego na podstawie ktorego stworzona bedzie pierwsza plansza. Argument jest ciagiem znakow zakonczonym '.txt'\n");
+	    printf("-i: Okresla nazwe wejsciowego pliku tekstowego, na podstawie ktorego stworzona bedzie pierwsza plansza. Argument jest ciagiem znakow zakonczonym '.txt'\n");
 	    printf("-o: Okresla nazwe pliku tekstowego do ktorego beda zapisane generacje. Argument jest ciagiem znakow zakonczonym '.txt'\n");
-	    printf("-a: Okresla symbol uzywany do zapisu komorek zywych. Argument jest jednym znakiem\n");
-	    printf("-d: Okresla symbol uzywany do zapisu komorek martwych. Argument jest jednym znakiem\n");
 	    printf("-w: Okresla jak program zapisze wyniki dzialania. Argument moze byc 0, 1 lub 2.\n");
 	    printf("Dla -w 0: Program wypisze wynik dzialania na ekran\n");
 	    printf("Dla -w 1: Program wypisze wynik dzialania do pliku tekstowego\n");
@@ -88,12 +82,12 @@ int main(int argc, char *argv[])
     init_grid( &first_grid, &static_dimension, &syms );
     init_grid( &second_grid, &static_dimension, &syms );
 
-    //WCZYTANIE PLIKU
+    //READ FILE
     fill_in_grid(fileIn, &first_grid, &syms);
 
     delete_png_from_dir();
 
-    //URUCHOMIENIE GRY
+    //EXECUTE AUTOMATON
     generations_done = generate_all(count_generation, writeOpt, fileOut, &static_dimension, &first_grid, &second_grid, &syms);
     
     if(writeOpt == 2)
