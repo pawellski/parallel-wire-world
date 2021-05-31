@@ -122,14 +122,22 @@ void describe_png(grid_t *util_grid, dimension_t *dim, symbols_t *syms)
     j = 1;
     for (x = 0; x < width - 9; x += 10)
     {
-       if( util_grid->cells[i][j] == syms->alive)
-       {
-	  row[x] = 255;
-       }
-       else
+       if(util_grid->cells[i][j] == syms->empty)
        {
 	  row[x] = 0;
        }
+       else if(util_grid->cells[i][j] == syms->ehead)
+       {
+	  row[x] = 192;
+       }
+       else if(util_grid->cells[i][j] == syms->etail)
+       {
+	  row[x] = 128;
+       } else
+       {
+	  row[x] = 255;
+       }
+
        for(int a = 1; a < 10; a++)
        {
 	  row[x + a] = row[x];
@@ -148,7 +156,7 @@ void describe_png(grid_t *util_grid, dimension_t *dim, symbols_t *syms)
 void  png(grid_t *util_grid, dimension_t *dim, symbols_t *syms, int n)
 {
   char numberOfFile[100];
-  sprintf(numberOfFile, "./Obrazy_PNG/Obraz%d.png", n);
+  sprintf(numberOfFile, "./png_images/image_%d.png", n);
   describe_png(util_grid, dim, syms);
   make_png(numberOfFile);
 }
