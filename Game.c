@@ -16,9 +16,9 @@ int generate_all(int n, int writeOpt, char *fileOut, dimension_t *dim, grid_t *m
         for(int i=1; i<dim->rows-1; i++)
         {
             for(int j=1; j<dim->columns-1; j++)
-                util_grid->cells[i][j] = is_alive(i, j, ptr, syms);
+                util_grid->cells[i][j] = change_cell_state(i, j, ptr, syms);
         }
-	switch(writeOpt)
+	    switch(writeOpt)
         {
         case 0:
             print_to_screen(it, util_grid, dim);
@@ -29,14 +29,14 @@ int generate_all(int n, int writeOpt, char *fileOut, dimension_t *dim, grid_t *m
 		    printf("Zapisano %d iteracji do pliku.\n", n);
 	    break;
         case 2:
-	    png(util_grid, dim, syms, it);
+	        png(util_grid, dim, syms, it);
 	    if(it == n)
 		    printf("Zapisano %d obrazów do folderu Obrazy_PNG.\n", n);
             break;
-	default:
+	    default:
             break;
         }
-	generations_done++;
+	    generations_done++;
 
         if(check(main_grid, util_grid, dim) == 1)
             ;
@@ -54,31 +54,32 @@ int generate_all(int n, int writeOpt, char *fileOut, dimension_t *dim, grid_t *m
     return generations_done;
 }
 
-char is_alive(int i, int j, char **main_ptr, symbols_t * syms)
+char change_cell_state(int i, int j, char **main_ptr, symbols_t * syms)
 {
-    int alive_number = 0;
-    for(int a=-1; a<2; a++)
+    int electronHeadNumber = 0;
+    switch (main_ptr[i][j])
     {
-        for(int b=-1; b<2; b++)
-            if(main_ptr[i + a][j + b] == syms->alive)
-                alive_number++;
-    }
+	    case '0':
+	        return syms->empty;
+	    case '3':
+            for(int a = -1; a < 2; a++)
+            {
+                for(int b = -1; b < 2; b++)
+                    if(main_ptr[i + a][j + b] == syms->ehead)
+                        electronHeadNumber++;
+            }
+            if (electronHeadNumber == 1 || electronHeadNumber == 2) {
+                return syms->ehead;
+            } else {
+                return syms->wire;
+            }
+        case '1':
+            return syms->etail;
+        case '2':
+            return syms->wire;
 
-    if(main_ptr[i][j] == syms->alive)
-    {
-        alive_number--;
-        if(alive_number == 2 || alive_number == 3)
-            return syms->alive;
-        else
-            return syms->dead;
     }
-    else
-    {
-        if(alive_number == 3)
-            return syms->alive;
-        else
-            return syms->dead;
-    }
+    return syms->empty;
 }
 
 void to_clear(grid_t *toclear, dimension_t *dim, symbols_t * syms)
@@ -86,7 +87,7 @@ void to_clear(grid_t *toclear, dimension_t *dim, symbols_t * syms)
     for(int i = 0; i < dim->rows; i++)
     {
         for(int j = 0; j < dim->columns; j++)
-            toclear->cells[i][j] = syms->dead;
+            toclear->cells[i][j] = syms->empty;
     }
 }
 
