@@ -50,5 +50,5 @@ delete_png_from_dir( void )
 	system("mkdir png_images");
 	system("cd png_images");
    	system("rm -rf ~/parallel-wire-world/png_images/*");
-    	system("cd ..");
+    system("cd ..");
 }

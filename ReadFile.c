@@ -20,7 +20,7 @@ void read_dimension(char *filename, dimension_t *dim, symbols_t * syms )
     while(( ch = getc( fp )) != EOF ){
         if(ch == '\n')
             break;
-        if( ch == syms->dead || ch == syms->alive )
+        if( ch == syms->empty || ch == syms->ehead || ch == syms->etail || ch == syms->wire)
             kolumny_ref++;
     }
 
