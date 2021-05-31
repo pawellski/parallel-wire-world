@@ -34,7 +34,7 @@ void read_dimension(char *filename, dimension_t *dim, symbols_t * syms )
                             exit(EXIT_FAILURE);
                 }
             }
-        if( ch == syms->dead || ch == syms->alive)
+        if( ch == syms->empty || ch == syms->ehead || ch == syms->etail || ch == syms->wire)
             kolumny++;
     }
     dim->columns = kolumny_ref + 2;
@@ -56,7 +56,7 @@ void fill_in_grid(char *filename, grid_t *grid_pointer, symbols_t * syms )
 
     while(( ch = getc( fp )) != EOF )
     {
-        if( ch == syms->dead || ch == syms->alive )
+        if( ch == syms->empty || ch == syms->ehead || ch == syms->etail || ch == syms->wire)
         {
             (grid_pointer->cells[i][j]) = ch;
             j++;

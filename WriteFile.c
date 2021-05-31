@@ -12,7 +12,7 @@ void print_to_screen(int n, grid_t *to_write, dimension_t *dim)
     {
         for(int j=1; j<(dim->columns)-1; ++j)
         {
-            printf("%c ",to_write->cells[i][j]);
+            printf("%c ", to_write->cells[i][j]);
         }
         printf("\n");
     }
@@ -39,7 +39,7 @@ void
 make_gif_command( double delay, int gen_num, char *gifFilename)
 {
 	char str[MAX_STR_SIZE];
-	sprintf(str, "convert -delay %g -loop 0 $(for i in $(seq 1 1 %d); do echo ~/GameOfLife/Obrazy_PNG/Obraz${i}.png; done) %s", delay, gen_num, gifFilename);
+	sprintf(str, "convert -delay %g -loop 0 $(for i in $(seq 1 1 %d); do echo ~/parallel-wire-world/png_images/image${i}.png; done) %s", delay, gen_num, gifFilename);
 	const char * command = str;
 	system(command);
 }
@@ -47,8 +47,8 @@ make_gif_command( double delay, int gen_num, char *gifFilename)
 void
 delete_png_from_dir( void )
 {
-	system("mkdir Obrazy_PNG");
-	system("cd Obrazy_PNG");
-   	system("rm -rf ~/GameOfLife/Obrazy_PNG/*");
+	system("mkdir png_images");
+	system("cd png_images");
+   	system("rm -rf ~/parallel-wire-world/png_images/*");
     	system("cd ..");
 }
