@@ -128,11 +128,11 @@ void describe_png(grid_t *util_grid, dimension_t *dim, symbols_t *syms)
        }
        else if(util_grid->cells[i][j] == syms->ehead)
        {
-	  row[x] = 192;
+	  row[x] = 128;
        }
        else if(util_grid->cells[i][j] == syms->etail)
        {
-	  row[x] = 128;
+	  row[x] = 192;
        } else
        {
 	  row[x] = 255;
