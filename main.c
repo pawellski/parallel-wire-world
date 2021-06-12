@@ -4,7 +4,6 @@
 
 #include "ReadFile.h"
 #include "Game.h"
-#include "PNG.h"
 #include "WriteFile.h"
 
 
@@ -81,20 +80,15 @@ int main(int argc, char *argv[])
 
     init_grid( &first_grid, &static_dimension, &syms );
     init_grid( &second_grid, &static_dimension, &syms );
-
     //READ FILE
     fill_in_grid(fileIn, &first_grid, &syms);
 
-    delete_png_from_dir();
-
     //EXECUTE AUTOMATON
     generations_done = generate_all(count_generation, writeOpt, fileOut, &static_dimension, &first_grid, &second_grid, &syms);
-    
     if(writeOpt == 2)
 	    make_gif_command( delay, generations_done, gifFilename );
-	    
+	
     free_grid( first_grid, static_dimension );
     free_grid( second_grid, static_dimension );
-
     return 0;
 }

@@ -44,11 +44,3 @@ make_gif_command( double delay, int gen_num, char *gifFilename)
 	system(command);
 }
 
-void
-delete_png_from_dir( void )
-{
-	system("mkdir png_images");
-	system("cd png_images");
-   	system("rm -rf /png_images/*");
-    system("cd ..");
-}

@@ -4,7 +4,6 @@
 
 #include "Game.h"
 #include "WriteFile.h"
-#include "PNG.h"
 
 int generate_all(int n, int writeOpt, char *fileOut, dimension_t *dim, grid_t *main_grid, grid_t *util_grid, symbols_t * syms)
 {
@@ -13,27 +12,28 @@ int generate_all(int n, int writeOpt, char *fileOut, dimension_t *dim, grid_t *m
     for(int i = 0; i<(dim->rows); i++)
         ptr[i] = &(main_grid->cells[i][0]);
 
+    // int i, j;
     for(int it=1; it<n+1; it++)
     {
-
-	#pragma parallel for collapsed(2) schedule(dynamic)
+	#pragma omp parallel for collapse(2) //schedule(dynamic) 
         for(int i=1; i<dim->rows-1; i++)
         {
+            // printf("%d/n",omp_get_num_threads());
             for(int j=1; j<dim->columns-1; j++)
                 util_grid->cells[i][j] = change_cell_state(i, j, ptr, syms);
         }
 	    switch(writeOpt)
         {
         case 0:
-            print_to_screen(it, util_grid, dim);
+            // print_to_screen(it, util_grid, dim);
+            continue;
 	    break;
         case 1:
             fill_in_file(it, fileOut, util_grid, dim);
             if(it == n)
 		    printf("Zapisano %d iteracji do pliku.\n", n);
 	    break;
-        case 2:
-	        png(util_grid, dim, syms, it);
+        
 	    if(it == n)
 		    printf("Zapisano %d obrazów do folderu Obrazy_PNG.\n", n);
             break;
