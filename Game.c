@@ -21,6 +21,22 @@ int generate_all(int n, int writeOpt, char *fileOut, dimension_t *dim, grid_t *m
             for(int j=1; j<dim->columns-1; j++)
                 util_grid->cells[i][j] = change_cell_state(i, j, ptr, syms);
         }
+        
+        switch(writeOpt)
+        {
+            case 0:
+                print_to_screen(it, util_grid, dim);
+	            break;
+            case 1:
+                fill_in_file(it, fileOut, util_grid, dim);
+                if(it == n)
+		            printf("Zapisano %d iteracji do pliku.\n", n);
+	            break;
+            case 2:
+                break;
+	    default:
+            break;
+        }
 
 	    generations_done++;
 
@@ -36,8 +52,6 @@ int generate_all(int n, int writeOpt, char *fileOut, dimension_t *dim, grid_t *m
         to_clear( util_grid, dim, syms );
     }
     
-    fill_in_file(fileOut, main_grid, dim);
-    printf("Wynik zapisano do pliku.\n");
     free(ptr);
     ptr = NULL;
     return generations_done;
