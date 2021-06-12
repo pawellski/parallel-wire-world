@@ -45,13 +45,6 @@ int main(int argc, char *argv[])
         case 'o':
             fileOut = optarg;
             break;
-        case 'w':
-            writeOpt = atoi(optarg);
-            if(writeOpt < 0 || writeOpt > 2){
-                printf("Opcja --w musi byc liczba calkowita z przedzialu <0 ; 2>\n");
-                exit(EXIT_FAILURE);
-            } else 
-                break;
         case ':':
             printf("Opcja potrzebuje argumentu. Użyj opcji -h, aby wyswietlic help\n");
             break;
@@ -65,10 +58,6 @@ int main(int argc, char *argv[])
 	    printf("-l: Okresla opoznienie wyswietlania obrazow w pliku .gif. Argument jest liczba zmiennoprzecinkowa\n");
 	    printf("-i: Okresla nazwe wejsciowego pliku tekstowego, na podstawie ktorego stworzona bedzie pierwsza plansza. Argument jest ciagiem znakow zakonczonym '.txt'\n");
 	    printf("-o: Okresla nazwe pliku tekstowego do ktorego beda zapisane generacje. Argument jest ciagiem znakow zakonczonym '.txt'\n");
-	    printf("-w: Okresla jak program zapisze wyniki dzialania. Argument moze byc 0, 1 lub 2.\n");
-	    printf("Dla -w 0: Program wypisze wynik dzialania na ekran\n");
-	    printf("Dla -w 1: Program wypisze wynik dzialania do pliku tekstowego\n");
-	    printf("Dla -w 2: Program zapisze wynik dzialania do pliku .gif");
 	    break;
         }
     }
@@ -85,13 +74,9 @@ int main(int argc, char *argv[])
     //READ FILE
     fill_in_grid(fileIn, &first_grid, &syms);
 
-    delete_png_from_dir();
 
     //EXECUTE AUTOMATON
     generations_done = generate_all(count_generation, writeOpt, fileOut, &static_dimension, &first_grid, &second_grid, &syms);
-    
-    if(writeOpt == 2)
-	    make_gif_command( delay, generations_done, gifFilename );
 	    
     free_grid( first_grid, static_dimension );
     free_grid( second_grid, static_dimension );
