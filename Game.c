@@ -16,7 +16,7 @@ int generate_all(int n, int writeOpt, char *fileOut, dimension_t *dim, grid_t *m
     for(int it=1; it<n+1; it++)
     {
 
-	    #pragma parallel for collapsed(2) schedule(dynamic)
+	    #pragma omp parallel for collapse(2)
         for(int i=1; i<dim->rows-1; i++)
         {
             for(int j=1; j<dim->columns-1; j++)
