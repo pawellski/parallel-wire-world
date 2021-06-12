@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <omp.h>
 
 #include "Game.h"
 #include "WriteFile.h"
@@ -11,8 +12,11 @@ int generate_all(int n, int writeOpt, char *fileOut, dimension_t *dim, grid_t *m
     int generations_done = 0;
     for(int i = 0; i<(dim->rows); i++)
         ptr[i] = &(main_grid->cells[i][0]);
+
     for(int it=1; it<n+1; it++)
     {
+
+	#pragma parallel for collapsed(2) schedule(dynamic)
         for(int i=1; i<dim->rows-1; i++)
         {
             for(int j=1; j<dim->columns-1; j++)
