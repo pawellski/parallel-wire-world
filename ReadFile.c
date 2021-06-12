@@ -13,7 +13,7 @@ void read_dimension(char *filename, dimension_t *dim, symbols_t * syms )
     char ch;
 
     if(fp == NULL){
-        printf("Podano niewlasciwa nazwe pliku\n");
+        printf("Brak pliku wejsciowego lub niewlasciwa nazwa plku wejsciowego.\n");
         exit(EXIT_FAILURE);
     }
 
