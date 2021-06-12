@@ -5,7 +5,7 @@ main.o: main.c Game.h ReadFile.h WriteFile.h
 	gcc -c main.c
 	
 Game.o: Game.c Game.h WriteFile.h PNG.h
-	gcc -c Game.c -lpng
+	gcc -c -fopenmp Game.c -lpng
 
 ReadFile.o: ReadFile.c ReadFile.h Game.h
 	gcc -c ReadFile.c
