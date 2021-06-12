@@ -4,7 +4,6 @@
 
 #include "Game.h"
 #include "WriteFile.h"
-#include "PNG.h"
 
 int generate_all(int n, int writeOpt, char *fileOut, dimension_t *dim, grid_t *main_grid, grid_t *util_grid, symbols_t * syms)
 {

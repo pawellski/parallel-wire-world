@@ -4,7 +4,6 @@
 
 #include "ReadFile.h"
 #include "Game.h"
-#include "PNG.h"
 #include "WriteFile.h"
 
 
