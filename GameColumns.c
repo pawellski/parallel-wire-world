@@ -17,9 +17,9 @@ int generate_all(int n, int writeOpt, char *fileOut, dimension_t *dim, grid_t *m
     {
 
         #pragma omp parallel for collapse(2) schedule(guided)
-        for(int i=1; i<dim->rows-1; i++)
+        for(int j=1; j<dim->columns-1; j++)
         {
-            for(int j=1; j<dim->columns-1; j++)
+            for(int i=1; i<dim->rows-1; i++)
                 util_grid->cells[i][j] = change_cell_state(i, j, ptr, syms);
         }
         switch(writeOpt)
@@ -86,20 +86,20 @@ char change_cell_state(int i, int j, char **main_ptr, symbols_t * syms)
 
 void to_clear(grid_t *toclear, dimension_t *dim, symbols_t * syms)
 {
-    #pragma omp parallel for collapse(2) schedule(guided)
-    for(int i = 0; i < dim->rows; i++)
+    #pragma omp parallel for collapse(2)
+    for(int j = 0; j < dim->columns; j++)
     {
-        for(int j = 0; j < dim->columns; j++)
+        for(int i = 0; i < dim->rows; i++)
             toclear->cells[i][j] = syms->empty;
     }
 }
 
 void change(grid_t *first, grid_t *second, dimension_t *dim)
 {
-    #pragma omp parallel for collapse(2) schedule(guided)
-    for(int i = 0; i<(dim->rows); i++)
+    #pragma omp parallel for collapse(2)
+    for(int j = 0; j<(dim->columns); j++)
     {
-        for(int j = 0; j<(dim->columns); j++)
+        for(int i = 0; i<(dim->rows); i++)
             first->cells[i][j] = second->cells[i][j];
     }
 }
